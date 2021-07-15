@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &6941141561668781916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163187502996466721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6816053359b547d7abc25efee6cef603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 0
 --- !u!1001 &1176266378405373185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10,7 +23,7 @@ PrefabInstance:
     - target: {fileID: 33364504206199072, guid: 12dbae367ad2c9f4dbc97d83e68f2631,
         type: 3}
       propertyPath: m_Name
-      value: BloodCell
+      value: RedBloodCell
       objectReference: {fileID: 0}
     - target: {fileID: 1750315696803511804, guid: 12dbae367ad2c9f4dbc97d83e68f2631,
         type: 3}
@@ -74,3 +87,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12dbae367ad2c9f4dbc97d83e68f2631, type: 3}
+--- !u!1 &1163187502996466721 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 33364504206199072, guid: 12dbae367ad2c9f4dbc97d83e68f2631,
+    type: 3}
+  m_PrefabInstance: {fileID: 1176266378405373185}
+  m_PrefabAsset: {fileID: 0}
