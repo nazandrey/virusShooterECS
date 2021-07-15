@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using System;
+using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
@@ -10,9 +11,13 @@ public class ECSSpawner : MonoBehaviour
 
     [SerializeField] private GameObject virusPrefab;
     [SerializeField] private GameObject redBloodCellPrefab;
-    [SerializeField] private int quantity;
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private int spawnQuantity;
+    [SerializeField] private int bulletQuantity;
+    [SerializeField] private Transform player;
 
     private BlobAssetStore _store;
+    private Entity bullet;
 
     private void Start()
     {
@@ -21,14 +26,34 @@ public class ECSSpawner : MonoBehaviour
         var settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _store);
         var virus = GameObjectConversionUtility.ConvertGameObjectHierarchy(virusPrefab, settings);
         var redBloodCell = GameObjectConversionUtility.ConvertGameObjectHierarchy(redBloodCellPrefab, settings);
+        bullet = GameObjectConversionUtility.ConvertGameObjectHierarchy(bulletPrefab, settings);
 
         Spawn(virus);
         Spawn(redBloodCell);
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            for (var i = 0; i < bulletQuantity; i++)
+            {
+                var instance = EntityManager.Instantiate(bullet);
+                var startPosition = player.position + Random.insideUnitSphere * 2;
+                EntityManager.SetComponentData(instance, new Translation {Value = startPosition});
+                EntityManager.SetComponentData(instance, new Rotation {Value = player.rotation});
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        _store.Dispose();
+    }
+
     private void Spawn(Entity virus)
     {
-        for (int i = 0; i < quantity; i++)
+        for (int i = 0; i < bulletQuantity; i++)
         {
             var instance = EntityManager.Instantiate(virus);
 
@@ -41,10 +66,5 @@ public class ECSSpawner : MonoBehaviour
             EntityManager.SetComponentData(instance, new Translation {Value = position});
             EntityManager.SetComponentData(instance, new WanderData {Speed = speed});
         }
-    }
-
-    private void OnDestroy()
-    {
-        _store.Dispose();
     }
 }
