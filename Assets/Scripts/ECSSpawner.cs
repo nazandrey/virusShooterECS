@@ -29,7 +29,9 @@ public class ECSSpawner : MonoBehaviour
             var z = Random.Range(-50, 50);
 
             var position = new float3(x, y, z);
+            var speed = Random.Range(1f, 3f);
             EntityManager.SetComponentData(instance, new Translation { Value = position });
+            EntityManager.SetComponentData(instance, new WanderData { Speed = speed });
         }
     }
 
