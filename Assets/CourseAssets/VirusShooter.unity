@@ -443,7 +443,7 @@ MonoBehaviour:
     type: 3}
   bulletPrefab: {fileID: 5154527107690878685, guid: 4332d326e4ac3a0479d9865b995396a8,
     type: 3}
-  spawnQuantity: 100
+  spawnQuantity: 500
   bulletQuantity: 10
   player: {fileID: 963194228}
 --- !u!4 &1016541371
