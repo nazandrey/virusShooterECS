@@ -53,7 +53,7 @@ public class ECSSpawner : MonoBehaviour
 
     private void Spawn(Entity virus)
     {
-        for (int i = 0; i < bulletQuantity; i++)
+        for (int i = 0; i < spawnQuantity; i++)
         {
             var instance = EntityManager.Instantiate(virus);
 
