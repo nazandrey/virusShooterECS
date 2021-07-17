@@ -7,26 +7,31 @@ using Random = UnityEngine.Random;
 
 public class ECSSpawner : MonoBehaviour
 {
-    public static EntityManager EntityManager;
-
+    public static Entity WhiteBloodCell;
+    
     [SerializeField] private GameObject virusPrefab;
     [SerializeField] private GameObject redBloodCellPrefab;
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject whiteBloodCellPrefab;
     [SerializeField] private int spawnQuantity;
     [SerializeField] private int bulletQuantity;
     [SerializeField] private Transform player;
 
+    private EntityManager _entityManager;
     private BlobAssetStore _store;
-    private Entity bullet;
+    private Entity _bullet;
 
     private void Start()
     {
         _store = new BlobAssetStore();
-        EntityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        
         var settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _store);
+        
         var virus = GameObjectConversionUtility.ConvertGameObjectHierarchy(virusPrefab, settings);
         var redBloodCell = GameObjectConversionUtility.ConvertGameObjectHierarchy(redBloodCellPrefab, settings);
-        bullet = GameObjectConversionUtility.ConvertGameObjectHierarchy(bulletPrefab, settings);
+        _bullet = GameObjectConversionUtility.ConvertGameObjectHierarchy(bulletPrefab, settings);
+        WhiteBloodCell = GameObjectConversionUtility.ConvertGameObjectHierarchy(whiteBloodCellPrefab, settings);
 
         Spawn(virus);
         Spawn(redBloodCell);
@@ -38,10 +43,10 @@ public class ECSSpawner : MonoBehaviour
         {
             for (var i = 0; i < bulletQuantity; i++)
             {
-                var instance = EntityManager.Instantiate(bullet);
+                var instance = _entityManager.Instantiate(_bullet);
                 var startPosition = player.position + Random.insideUnitSphere * 2;
-                EntityManager.SetComponentData(instance, new Translation {Value = startPosition});
-                EntityManager.SetComponentData(instance, new Rotation {Value = player.rotation});
+                _entityManager.SetComponentData(instance, new Translation {Value = startPosition});
+                _entityManager.SetComponentData(instance, new Rotation {Value = player.rotation});
             }
         }
     }
@@ -55,7 +60,7 @@ public class ECSSpawner : MonoBehaviour
     {
         for (int i = 0; i < spawnQuantity; i++)
         {
-            var instance = EntityManager.Instantiate(virus);
+            var instance = _entityManager.Instantiate(virus);
 
             var x = Random.Range(-50, 50);
             var y = Random.Range(-50, 50);
@@ -63,8 +68,8 @@ public class ECSSpawner : MonoBehaviour
 
             var position = new float3(x, y, z);
             var speed = Random.Range(1f, 3f);
-            EntityManager.SetComponentData(instance, new Translation {Value = position});
-            EntityManager.SetComponentData(instance, new WanderData {Speed = speed});
+            _entityManager.SetComponentData(instance, new Translation {Value = position});
+            _entityManager.SetComponentData(instance, new WanderData {Speed = speed});
         }
     }
 }
